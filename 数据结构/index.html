@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h3>content-box</h3>
+    <div id="box" class="box">
+        <div id="child" class="child"></div>
+    </div>
+    <h3>border-box</h3>
+    <div id="box1" class="box" style="box-sizing: border-box;">
+        <div id="child1" class="child"></div>
+    </div>
+    <style>
+        .box{
+            width: 500px;
+            height: 300px;
+            padding: 10px;
+            margin: 20px;
+            border: 2px solid orange;
+            background-color: aliceblue;
+            overflow-y: scroll;
+        }
+        .child{
+            width: 100%;
+            height: 500px;
+            background-color: palegreen;
+            white-space: pre-line;
+        }
+    </style>
+    <script>
+        let box = document.getElementById('box');
+        let str = `cssWidth: 500
+        clientWidth: ${box.clientWidth}
+        offsetWidth: ${box.offsetWidth}
+        scrollWidth: ${box.scrollWidth}
+        
+        cssHeight: 300
+        clientHeight: ${box.clientHeight}
+        offsetHeight: ${box.offsetHeight}
+        scrollHeight: ${box.scrollHeight}
+        `
+        let child = document.getElementById('child');
+        child.innerHTML = str;
+
+        let box1 = document.getElementById('box1');
+        let str1 = `cssWidth: 500
+        clientWidth: ${box1.clientWidth}
+        offsetWidth: ${box1.offsetWidth}
+        scrollWidth: ${box1.scrollWidth}
+
+        cssHeight: 300
+        clientHeight: ${box1.clientHeight}
+        offsetHeight: ${box1.offsetHeight}
+        scrollHeight: ${box1.scrollHeight}
+        `
+        let child1 = document.getElementById('child1');
+        child1.innerHTML = str1;
+    </script>
+    <script src="./index.js"></script>
+</body>
+</html>

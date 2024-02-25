@@ -1,0 +1,36 @@
+<div class="cube-container">
+    <div class="cube2 flat1"></div>
+    <div class="cube2 flat2"></div>
+    <div class="cube2 flat3"></div>
+</div>
+
+<style>
+.cube-container{
+  font-size: 0;
+  position: relative;
+  margin-top: 200px;
+}
+.cube2{
+  display: inline-block;
+  width: 200px;
+  height: 200px;
+}
+
+.flat1{
+  background-color: #f7cd46;
+  transform: skew(0deg, 30deg);
+  width: 180px;
+}
+.flat2{
+  background-color: #ba5353;
+  position: absolute;
+  left: 80px;
+  top: -152px;
+  transform: rotate(45deg) skew(-15deg, -15deg);
+}
+.flat3{
+  background-color: #6c8bce;
+  transform: skew(0deg, -30deg);
+  width: 180px;
+}
+</style>
