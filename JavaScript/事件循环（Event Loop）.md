@@ -80,14 +80,16 @@ Event Loops中，每一次循环称为tick，每次tick的流程如下：
 ## Node环境下的事件循环
 Node.js是运行在服务端的js，虽然用到也是V8引擎，但由于服务目的和环境不同，导致了它的API与原生JS有些区别，其Event Loop还要处理一些I/O，比如新的网络连接等，所以与浏览器Event Loop不太一样。
 
+> 在进程启动时，Node便会创建一个类似于while(true)的循环，每执行一次循环体的过程我们称为Tick。每个Tick的过程就是查看是否有事件待处理，如果有，就取出事件及其相关的回调函数。如果存在关联的回调函数，就执行它们。然后进入下个循环，如果不再有事件处理，就退出进程。
+
 ### 6个阶段
 执行顺序如下：
 1. timers: 执行setTimeout和setInterval的回调
 2. pending callbacks: 执行延迟到下一个循环迭代的 I/O 回调
-idle, prepare: 仅系统内部使用
-3. poll: 检索新的 I/O 事件;执行与 I/O 相关的回调。事实上除了其他几个阶段处理的事情，其他几乎所有的异步都在这个阶段处理。
-4. check: setImmediate在这里执行
-5. close callbacks: 一些关闭的回调函数，如：socket.on('close', ...)
+3. idle, prepare: 仅系统内部使用
+4. poll: 检索新的 I/O 事件;执行与 I/O 相关的回调。事实上除了其他几个阶段处理的事情，其他几乎所有的异步都在这个阶段处理。
+5. check: setImmediate在这里执行
+6. close callbacks: 一些关闭的回调函数，如：socket.on('close', ...)
 
 个人理解：这6个阶段都是针对宏任务来说的，如果在执行宏任务回调函数的过程中加入了微任务，则会在当前宏任务执行完后立即执行微任务。
 
@@ -125,7 +127,8 @@ setTimeout(() => {
 ```
 
 ### process.nextTick()
-`process.nextTick()`不固定在Event Loop的任何阶段执行，它属于微任务，在各个宏任务之间穿插执行。
+~~`process.nextTick()`不固定在Event Loop的任何阶段执行，它属于微任务，在各个宏任务之间穿插执行。~~
+process.nextTick()中的回调函数执行的优先级要高于setImmediate()。这里的原因在于事件循环对观察者的检查是有先后顺序的，**process.nextTick()属于idle观察者**，setImmediate()属于check观察者。在每一个轮循环检查中，idle观察者先于I/O观察者，I/O观察者先于check观察者。
 
 ### Promise，process.nextTick谁先执行？
 nextTick和Promise同时出现时，肯定是nextTick先执行，原因是nextTick的队列比Promise队列优先级更高。
